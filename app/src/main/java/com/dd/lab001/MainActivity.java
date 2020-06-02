@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_grid);
+        setContentView(R.layout.activity_main_relative);
 
         Button button = findViewById(R.id.button);
         switch1 = (Switch)findViewById(R.id.switch1);
