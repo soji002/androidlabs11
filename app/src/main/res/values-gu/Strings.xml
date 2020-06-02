@@ -3,4 +3,13 @@
     <string name="app_name">Lab01</string>
     <string name="hello_message">હેલો વર્લ્ડ </string>
     <string name="ButtonText">I\'am a Button</string>
+
+    <string name="TextView">મારી જીયુઆઈ જુઓ:</string>
+    <string name="Button">અહીં ક્લિક કરો</string>
+    <string name="GUI">મારી જીયુઆઈ જુઓ:</string>
+    <string name="check">આ તપાસો!</string>
+    <string name="Switch">ચાલુ કરવું / બંધ કરો</string>
+    <string name="hint">અહી લખો</string>
+    <string name="toast_message">અહીં વધુ માહિતી છે</string>
+
 </resources>
