@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 
 public class ProfileActivity extends AppCompatActivity {
     public static final String ACTIVITY_NAME = "PROFILE_ACTIVITY";
-    ImageButton takePicture;
+    ImageButton mImageButton;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
@@ -25,8 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
         String emailType = loginPage.getStringExtra("emailType");
         EditText enterEmail = (EditText)findViewById(R.id.email);
         enterEmail.setText(emailType);
-        takePicture = (ImageButton)findViewById(R.id.picture);
-        takePicture.setOnClickListener(new View.OnClickListener() {
+        mImageButton = (ImageButton)findViewById(R.id.picture);
+        mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View c) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            takePicture.setImageBitmap(imageBitmap);
+            mImageButton.setImageBitmap(imageBitmap);
         }
         Log.e(ACTIVITY_NAME, "In function: onActivityResult"  /* replace with function name */);
     }
