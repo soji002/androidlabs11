@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -15,6 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String ACTIVITY_NAME = "PROFILE_ACTIVITY";
     ImageButton mImageButton;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    Button goToChatBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,18 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         Log.e(ACTIVITY_NAME, "In function: onCreate"  /* replace with function name */);
+
+        goToChatBtn = (Button)findViewById(R.id.GoToChatBtn);
+        goToChatBtn.setOnClickListener(c -> {
+            Intent goToChatPage = new Intent(ProfileActivity.this, ChatRoomActivity.class);
+
+            startActivityForResult(goToChatPage, 345);
+
+        });
+
+
+        Log.d(ACTIVITY_NAME, "In function: onCreate()");
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
