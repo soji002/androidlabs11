@@ -2,6 +2,8 @@ package com.dd.lab001;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 //import android.support.annotation.Nullable;
 //import android.support.v7.app.AppCompatActivity;
@@ -26,10 +28,13 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     ListView listView;
     EditText editText;
-    List<Message> listMessage = new ArrayList<>();
+//    List<Message> listMessage = new ArrayList<>();
+
+List<Message> messages;
+
     Button sendBtn;
     Button receiveBtn;
-
+    DatabaseClass databaseHelp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,37 +45,63 @@ public class ChatRoomActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.ChatEditText);
         sendBtn = (Button)findViewById(R.id.SendBtn);
         receiveBtn = (Button)findViewById(R.id.ReceiveBtn);
+        messages = new ArrayList<>();
+        databaseHelp = new DatabaseClass(this);
 
-
-
+        final ChatAdapter messageAdapter = new ChatAdapter(messages, this);
+        listView.setAdapter(messageAdapter);
 
 
         sendBtn.setOnClickListener(c -> {
-            String message = editText.getText().toString();
-            Message model = new Message(message, true);
-            listMessage.add(model);
-            editText.setText("");
-            ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
-            listView.setAdapter(adt);
-            adt.notifyDataSetChanged();
+            if (!editText.getText().toString().equals("")) {
+
+
+                databaseHelp.insertData(editText.getText().toString(), true);
+
+                editText.setText("");
+
+                messages.clear();
+
+                viewData();
+
+//            String message = editText.getText().toString();
+//            Message model = new Message(message, true);
+//            listMessage.add(model);
+//            editText.setText("");
+//            ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
+//            listView.setAdapter(adt);
+//            adt.notifyDataSetChanged();
+            }
         });
 
 
         receiveBtn.setOnClickListener(c -> {
-            String message = editText.getText().toString();
-            Message model = new Message(message, false);
-            listMessage.add(model);
-            editText.setText("");
-            ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
-            listView.setAdapter(adt);
-            adt.notifyDataSetChanged();
+            if (!editText.getText().toString().equals("")) {
+
+                databaseHelp.insertData(editText.getText().toString(), false);
+
+                editText.setText("");
+
+                messages.clear();
+
+                viewData();
+
+//                String message = editText.getText().toString();
+//                Message model = new Message(message, false);
+//                listMessage.add(model);
+//                editText.setText("");
+//                ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
+//                listView.setAdapter(adt);
+//                adt.notifyDataSetChanged();
+            }
         });
 
 
 
-
+        viewData();
 
         Log.d("ChatRoomActivity","onCreate");
+
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -86,11 +117,17 @@ public class ChatRoomActivity extends AppCompatActivity {
                         //set what would happen when positive button is clicked
 //
 
-                        Message item = listMessage.get(position);
-                        listMessage.remove(position);
-                        ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
+                        databaseHelp.deleteWord(id);
+//                        Message item = listMessage.get(position);
+                        messages.remove(position);
+                        ChatAdapter adt = new ChatAdapter(messages, getApplicationContext());
                         listView.setAdapter(adt);
                         adt.notifyDataSetChanged();
+
+//                        String bookid=messages.getItem(position).id
+//                        db.delete_order("tbl_order", bookid);
+
+
                     }
                 });
               builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -110,6 +147,28 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void viewData(){
+
+        Cursor cursor = databaseHelp.viewData();
+
+        if (cursor.getCount() != 0){
+
+            while (cursor.moveToNext()){
+
+                Message msg = new Message(cursor.getString(1), cursor.getInt(2) == 0);
+
+                messages.add(msg);
+
+                ChatAdapter chatAdapter = new ChatAdapter(messages, getApplicationContext());
+
+                listView.setAdapter(chatAdapter);
+
+            }
+
+        }
 
     }
 

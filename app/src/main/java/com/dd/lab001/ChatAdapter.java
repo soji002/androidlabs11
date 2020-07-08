@@ -15,6 +15,7 @@ public class ChatAdapter extends BaseAdapter {
     private List<Message> messageModels;
     private Context context;
     private LayoutInflater inflater;
+
     public ChatAdapter(Context context) {
         this.context = context;
     }
@@ -22,7 +23,7 @@ public class ChatAdapter extends BaseAdapter {
     public ChatAdapter(List<Message> messageModels, Context context) {
         this.messageModels = messageModels;
         this.context = context;
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -44,14 +45,14 @@ public class ChatAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        if (view == null){
-            if (messageModels.get(position).isSend()){
+        if (view == null) {
+            if (messageModels.get(position).isSend()) {
                 view = inflater.inflate(R.layout.activity_send, null);
 
-            }else {
+            } else {
                 view = inflater.inflate(R.layout.activity_receive, null);
             }
-            TextView  messageText = (TextView)view.findViewById(R.id.textViewMessage);
+            TextView messageText = (TextView) view.findViewById(R.id.textViewMessage);
             messageText.setText(messageModels.get(position).getMessage());
         }
         return view;
