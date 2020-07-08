@@ -117,7 +117,9 @@ List<Message> messages;
                         //set what would happen when positive button is clicked
 //
 
-                        databaseHelp.deleteWord(id);
+
+                        databaseHelp.deleteWord(messages.get(position).getId());
+                        Log.d("adn",String.valueOf(messages.get(position).getId()));
 //                        Message item = listMessage.get(position);
                         messages.remove(position);
                         ChatAdapter adt = new ChatAdapter(messages, getApplicationContext());
@@ -158,7 +160,7 @@ List<Message> messages;
 
             while (cursor.moveToNext()){
 
-                Message msg = new Message(cursor.getString(1), cursor.getInt(2) == 0);
+                Message msg = new Message(cursor.getInt(0), cursor.getString(1) ,cursor.getInt(2)==0);
 
                 messages.add(msg);
 

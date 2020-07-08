@@ -2,11 +2,12 @@ package com.dd.lab001;
 public class Message {
     public String message;
     public boolean isSend;
-    private long id;
+    public int id;
 
-    public Message(String message, boolean isSend) {
+    public Message(int id , String message, boolean isSend) {
         this.message = message;
         this.isSend = isSend;
+        this.id=id;
     }
 
     public Message() {
@@ -28,11 +29,11 @@ public class Message {
         isSend = send;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
