@@ -45,4 +45,17 @@
     <string name="ReceiveText">Receive</string>
     <string name="ChatHint">Type here</string>
 
+    //lab7
+    <string name="GoToWeather">Go to Weather page</string>
+    <string name="currentTemp">Current Temperature</string>
+    <string name="minTemp">Minimum Temperature</string>
+    <string name="maxTemp">Maximum Temperature</string>
+    <string name="uvRating">UV</string>
+
+    <string name="type_here">type here</string>
+    <string name="goToToolbar">Go To Toolbar</string>
+    <string name="newMessageTV">What is your new message?</string>
+    <string name="item1Toast">You clicked on the overflow menu</string>
+    <string name="item3Toast">This is the initial message</string>
+
 </resources>
