@@ -13,10 +13,7 @@
 
 
     <Button
-        android:nextFocusLeft="@+id/item4"
-        android:nextFocusRight="@+id/item3"
-        android:nextFocusUp="@+id/item2"
-        android:nextFocusDown="@+id/item1"
+
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,10 +21,7 @@
         android:textSize="20dp" />
 
     <EditText
-        android:nextFocusLeft="@+id/item4"
-        android:nextFocusRight="@+id/item3"
-        android:nextFocusUp="@+id/item2"
-        android:nextFocusDown="@+id/item1"
+
         android:id="@+id/pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,10 +32,7 @@
 
 
     <EditText
-        android:nextFocusLeft="@+id/item4"
-        android:nextFocusRight="@+id/item3"
-        android:nextFocusUp="@+id/item2"
-        android:nextFocusDown="@+id/item1"
+
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,20 +45,13 @@
         android:id="@+id/emailtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nextFocusLeft="@+id/item4"
 
-        android:nextFocusRight="@+id/item3"
-        android:nextFocusUp="@+id/item2"
-        android:nextFocusDown="@+id/item1"
 
         android:text="@string/email"
         android:textSize="20dp" />
 
     <TextView
-        android:nextFocusLeft="@+id/item4"
-        android:nextFocusRight="@+id/item3"
-        android:nextFocusUp="@+id/item2"
-        android:nextFocusDown="@+id/item1"
+
         android:id="@+id/password_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
