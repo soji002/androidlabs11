@@ -4,22 +4,37 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="fill"
-        android:orientation="vertical">
+        android:orientation="vertical"
+    android:layout_marginTop="27dp"
+    android:layout_marginBottom="27dp"
+    android:layout_marginLeft="48dp"
+    android:layout_marginRight="48dp">
 
         <TextView
-
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile"
             android:textSize="17.5dp" />
 
         <TextView
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/name"
             android:textSize="17.5dp" />
 
         <EditText
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hname"
@@ -28,12 +43,20 @@
             />
 
         <TextView
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/yemail"
             android:textSize="17.5dp" />
 
         <EditText
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,12 +66,20 @@
             />
 
         <TextView
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pic"
             android:textSize="17.5dp" />
 
         <ImageButton
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:id="@+id/picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +87,10 @@
             />
 
         <TextView
+            android:nextFocusLeft="@+id/item4"
+            android:nextFocusRight="@+id/item3"
+            android:nextFocusUp="@+id/item2"
+            android:nextFocusDown="@+id/item1"
             android:id="@+id/ImagePictureTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,6 +100,10 @@
             />
 
     <Button
+        android:nextFocusLeft="@+id/item4"
+        android:nextFocusRight="@+id/item3"
+        android:nextFocusUp="@+id/item2"
+        android:nextFocusDown="@+id/item1"
         android:id="@+id/GoToChatBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,6 +119,10 @@
 <!--        android:text="@string/goToToolbar" />-->
 
     <Button
+        android:nextFocusLeft="@+id/item4"
+        android:nextFocusRight="@+id/item3"
+        android:nextFocusUp="@+id/item2"
+        android:nextFocusDown="@+id/item1"
         android:id="@+id/GoToWeather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
