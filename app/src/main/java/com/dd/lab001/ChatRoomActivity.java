@@ -48,7 +48,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chatroom);
 
         listView = (ListView)findViewById(R.id.ListView);
-        editText = (EditText)findViewById(R.id.ChatEditText);
+        editText = (EditText)findViewById(R.id.chatEditText);
         sendBtn = (Button)findViewById(R.id.SendBtn);
         receiveBtn = (Button)findViewById(R.id.ReceiveBtn);
         databaseHelp = new DatabaseClass(this);
