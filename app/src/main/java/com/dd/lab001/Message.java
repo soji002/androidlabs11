@@ -10,7 +10,7 @@ public class Message {
         this.id=id;
     }
 
-    public Message() {
+    public Message(String msg, boolean isSend) {
     }
 
     public String getMessage() {

@@ -2,6 +2,7 @@ package com.dd.lab001;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -26,15 +27,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
-    ListView listView;
-    EditText editText;
-//    List<Message> listMessage = new ArrayList<>();
+    private ListView listView;
+    private EditText editText;
+    private List<Message> messages = new ArrayList<>();
+    private ChatAdapter adapter;
+//    List<Message> messagesessages;
+    public static final String ITEM_ID = "id";
+    public static final String ITEM_POSITION = "position";
+    public static final String ITEM_MSG = "msg";
+    public static final String ITEM_TYPE = "type";
 
-List<Message> messages;
-
-    Button sendBtn;
-    Button receiveBtn;
-    DatabaseClass databaseHelp;
+    public static final int EMPTY_ACTIVITY = 345;
+    private Button sendBtn;
+    private Button receiveBtn;
+    private DatabaseClass databaseHelp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,54 +51,39 @@ List<Message> messages;
         editText = (EditText)findViewById(R.id.ChatEditText);
         sendBtn = (Button)findViewById(R.id.SendBtn);
         receiveBtn = (Button)findViewById(R.id.ReceiveBtn);
-        messages = new ArrayList<>();
         databaseHelp = new DatabaseClass(this);
 
-        final ChatAdapter messageAdapter = new ChatAdapter(messages, this);
-        listView.setAdapter(messageAdapter);
+//        final ChatAdapter messageAdapter = new ChatAdapter(messages, this);
+//        listView.setAdapter(messageAdapter);
+        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded --- fragment
+        Cursor cursor = databaseHelp.printCursor();
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
 
+                Message model = new Message((int) cursor.getLong(0), cursor.getString(1), cursor.getInt(2) == 0);
+                messages.add(model);
+                adapter = new ChatAdapter(messages, getApplicationContext());
+                listView.setAdapter(adapter);
+            }
+        } else {
+            adapter = new ChatAdapter(messages, getApplicationContext());
+            listView.setAdapter(adapter);
+        }
 
-        sendBtn.setOnClickListener(c -> {
-            if (!editText.getText().toString().equals("")) {
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-                databaseHelp.insertData(editText.getText().toString(), true);
-
-                editText.setText("");
-
-                messages.clear();
-
-                viewData();
-
-//            String message = editText.getText().toString();
-//            Message model = new Message(message, true);
-//            listMessage.add(model);
-//            editText.setText("");
-//            ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
-//            listView.setAdapter(adt);
-//            adt.notifyDataSetChanged();
+                String sendMessage = editText.getText().toString();
+                updateMessageIntoList(sendMessage, true);
             }
         });
 
-
-        receiveBtn.setOnClickListener(c -> {
-            if (!editText.getText().toString().equals("")) {
-
-                databaseHelp.insertData(editText.getText().toString(), false);
-
-                editText.setText("");
-
-                messages.clear();
-
-                viewData();
-
-//                String message = editText.getText().toString();
-//                Message model = new Message(message, false);
-//                listMessage.add(model);
-//                editText.setText("");
-//                ChatAdapter adt = new ChatAdapter(listMessage, getApplicationContext());
-//                listView.setAdapter(adt);
-//                adt.notifyDataSetChanged();
+        receiveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sendMessage = editText.getText().toString();
+                updateMessageIntoList(sendMessage, false);
             }
         });
 
@@ -118,7 +109,7 @@ List<Message> messages;
 //
 
 
-                        databaseHelp.deleteWord(messages.get(position).getId());
+                        databaseHelp.deleteData(messages.get(position).getId());
                         Log.d("adn",String.valueOf(messages.get(position).getId()));
 //                        Message item = listMessage.get(position);
                         messages.remove(position);
@@ -132,7 +123,7 @@ List<Message> messages;
 
                     }
                 });
-              builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //set what should happen when negative button is clicked
@@ -149,12 +140,96 @@ List<Message> messages;
             }
         });
 
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+
+
+            Message message = (Message) adapter.getItem(position);
+            Log.e("ClickStartPosition",Integer.toString(position));
+            Log.e("message= ",message.toString());
+
+
+            Bundle dataToPass = new Bundle();
+            dataToPass.putLong(ITEM_ID, message.getId());
+            dataToPass.putInt(ITEM_POSITION, position);
+
+            dataToPass.putString(ITEM_MSG, message.getMessage());
+            dataToPass.putBoolean(ITEM_TYPE, message.isSend());
+            Log.e("Bundle data id",ITEM_ID);
+            Log.e("position",ITEM_POSITION);
+            Log.e("positionGet",Integer.toString(dataToPass.getInt(ITEM_POSITION)));
+            Log.e("msg",ITEM_MSG);
+            Log.e("item_type==",ITEM_TYPE);
+
+            if(isTablet)
+            {
+                MessageFragment messageFragment = new MessageFragment();
+                messageFragment.setArguments( dataToPass );
+                messageFragment.setTablet(true);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentLocation, messageFragment)
+                        .addToBackStack("AnyName")
+                        .commit();
+            }
+            else
+            {
+                Intent nextActivity = new Intent(ChatRoomActivity.this, EmptyActivity.class);
+                nextActivity.putExtras(dataToPass);
+
+                Log.e("phone intent pos",Integer.toString(dataToPass.getInt(ITEM_POSITION)));
+                startActivityForResult(nextActivity, EMPTY_ACTIVITY);
+            }
+
+
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EMPTY_ACTIVITY)
+        {
+            if(resultCode == RESULT_OK) //if you hit the delete button instead of back button
+            {
+                long id = data.getLongExtra(ITEM_ID, 0);
+                int position=data.getIntExtra(ITEM_POSITION,0);
+                Log.e("functionActivityResult",Long.toString(id));
+                Log.e("ITEM_POSITION == ",Integer.toString(position));
+                deleteMessageId(id,position);
+            }
+        }
+    }
+
+    public void deleteMessageId(long id,int position)
+    {
+        //ChatRoomHelper chatRoomHelper=new ChatRoomHelper(this);
+        Log.i("Delete this message:" , " id="+id);
+        int result=databaseHelp.deleteData(id);
+        Log.e("ggg",String.valueOf(result));
+        if(result==1) {
+            Message m=messages.remove(position);
+            Log.e("item_Position===",Integer.toString(position));
+            Log.e("item_Position===",ITEM_POSITION);
+            Log.e("item===",m.getMessage());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void updateMessageIntoList(final String msg, final boolean isSend) {
+        final Message model = new Message(msg, isSend);
+        long id = databaseHelp.insertData(msg, isSend);
+        if (id > -1) {
+            model.setId((int) id);
+            messages.add(model);
+            adapter.notifyDataSetChanged();
+            editText.setText("");
+        }
 
     }
 
+
     private void viewData(){
 
-        Cursor cursor = databaseHelp.viewData();
+        Cursor cursor = databaseHelp.printCursor();
 
         if (cursor.getCount() != 0){
 
@@ -173,6 +248,9 @@ List<Message> messages;
         }
 
     }
-
-
 }
+
+
+
+
+
